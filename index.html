@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/css/bootstrap.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+	<title>Todo VuesJS - Trying</title>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-8">
+
+            <div id="app">
+                <task-list :tasks="tasks"></task-list>
+            </div>
+            
+
+            <template id="task-list">
+                <section class="tasks shadow-lg p-3 mb-5 bg-white rounded">
+
+                    <div class="col-md-12">
+                        <h1>Tasks 
+                            <transition name="fade">
+                                <small v-if="incomplete">({{ incomplete }})</small>
+                            </transition>
+                        </h1>
+
+                        <div class="flex-row">
+                            <div class="d-flex justify-content-start align-items-center ">
+                                <div class="p-2 flex-fill">
+                                    <input type="text" class="form-control" v-model="newTask" @keyup.enter="addTask" placeholder="New task">
+                                </div>
+                                <div class="p-2">
+                                    <button @click="addTask" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex-row">
+                            <div class="d-flex justify-content-end tasks__clear">
+                                <div class="p-2"><button class="btn btn-outline-warning btn-sm" @click="clearCompleted"><i class="fas fa-check"></i> Clear Completed</button></div>
+                                <div class="p-2"><button class="btn btn-outline-danger btn-sm" @click="clearAll"><i class="far fa-trash-alt"></i> Clear All</button></div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="flex-row">
+                            <div class="d-flex">
+                                <transition-group name="fade" tag="ul" class="flex-fill tasks__list">
+                                    <task-item v-for="(task, index) in tasks" @remove="removeTask(index)" @complete="completeTask(task)" :task="task" :key="task"></task-item>
+                                </transition-group>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </section>
+            </template>
+            
+            <template id="task-item">
+                <li class="tasks__item">
+                    <button :class="className" @click.self="$emit('complete')">{{ task.title }}</button>
+                    <button class="tasks__item__remove btn btn-danger"@click="$emit('remove')"><i class="fas fa-times"></i></button>
+                </li>
+            </template>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.js"></script>
+    <script src="app.js"></script>
+
+
+</body>
+
+</html>
