@@ -53,7 +53,7 @@
 
                         <div class="flex-row">
                             <div class="d-flex">
-                                <transition-group name="fade" tag="ul" class="flex-fill tasks__list">
+                                <transition-group name="fade" tag="ul" class="p-0 flex-fill tasks__list">
                                     <task-item v-for="(task, index) in tasks" @remove="removeTask(index)" @complete="completeTask(task)" :task="task" :key="task"></task-item>
                                 </transition-group>
                             </div>
